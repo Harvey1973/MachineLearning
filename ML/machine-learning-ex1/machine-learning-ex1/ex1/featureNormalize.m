@@ -24,7 +24,20 @@ sigma = zeros(1, size(X, 2));
 %               each feature. 
 %
 % Hint: You might find the 'mean' and 'std' functions useful.
-%       
+%
+for i = 1:size(X,2)
+
+    mu(i) = mean(X)(i);    % calculate the mean value of the ith column of X
+    %mu(2) = mean(X)(2);    calculate the mean value of the second column of X
+
+    sigma(i) = std(X)(i);
+    %sigma(2) = std(X)(2);
+
+    X(:,i) = (X(:,i)-mu(i))/sigma(i);
+    %X(:,2) = (X(:,2)-mu(2))/sigma(2);
+endfor
+
+X_norm = X;
 
 
 
