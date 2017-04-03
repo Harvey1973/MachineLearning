@@ -1,0 +1,37 @@
+% load_quasar_data
+%
+% Loads the data in the quasar data files
+%
+% Upon completion of this script, the matrices and data are as follows:
+%
+% lambdas - A length n = 450 vector of wavelengths {1150, ..., 1599}
+% train_qso - A size m-by-n matrix, where m = 200 and n = 450, of noisy
+%      observed quasar spectra for training.
+% test_qso - A size m-by-n matrix, where m = 200 and n = 450, of noisy observed
+%       quasar spectra for testing.
+
+load quasar_train.csv;
+lambdas = quasar_train(1, :)';
+train_qso = quasar_train(2:end, :);
+load quasar_test.csv;
+test_qso = quasar_test(2:end, :);
+[mm,nn] = size(train_qso);
+
+figure;
+y = train_qso(1,:)';
+X = [ones(nn,1),lambdas];
+
+h = plot(lambdas,y,'k+');
+set(h,'linewidth',1);
+hold on;
+taus = [1,5,10,100,100];
+colors = {'r-','b-','g-','m-','c-'};
+
+for tau_ind = 1:5
+    tau = taus(tau_ind);
+    y_smooth = local_linear_regression(lambdas,y,tau);
+    h = plot(lambdas,y_smooth,char(colors(tau_ind)));
+    set(h,'linewidth',2);
+end
+
+    
